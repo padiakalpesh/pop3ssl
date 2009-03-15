@@ -1,0 +1,5 @@
+E:\MyLogs\khdv\RTSPrelated\VS Apps\pop3SSL\pop3SSL\bin\Debug\pop3SSL.dll
+E:\MyLogs\khdv\RTSPrelated\VS Apps\pop3SSL\pop3SSL\bin\Debug\pop3SSL.pdb
+E:\MyLogs\khdv\RTSPrelated\VS Apps\pop3SSL\pop3SSL\obj\Debug\ResolveAssemblyReference.cache
+E:\MyLogs\khdv\RTSPrelated\VS Apps\pop3SSL\pop3SSL\obj\Debug\pop3SSL.dll
+E:\MyLogs\khdv\RTSPrelated\VS Apps\pop3SSL\pop3SSL\obj\Debug\pop3SSL.pdb
