@@ -918,7 +918,8 @@ namespace pop3SSL
                         res = instream.Read(bytes, 0, bytes.Length);
                         len += res;
                         lines++;
-                        //System.Windows.Forms.MessageBox.Show("len = " + len + "\n Msg: " + Encoding.ASCII.GetString(bytes, 0, res));
+                        String lastRead;
+                        lastRead = Encoding.ASCII.GetString(bytes, 0, res);
                         do
                         {
                             try
@@ -931,19 +932,30 @@ namespace pop3SSL
                                 System.Windows.Forms.MessageBox.Show("Cant add more capacity");
                                 return false;
                             }
-                            response.Add(Encoding.ASCII.GetString(bytes, 0, res));
+
+                            response.Add(lastRead);
+                            bytes = null;
                             bytes = new byte[1024];
                             res = instream.Read(bytes, 0, bytes.Length);
                             len += res;
                             lines++;
-                        } while (len < msgSize);
-                        response.Add(Encoding.ASCII.GetString(bytes, 0, res));
+                            lastRead = Encoding.ASCII.GetString(bytes, 0, res);
+
+                        } while (lastRead.EndsWith("\r\n.\r\n") == false);
+                        response.Add(lastRead);
                         if (response.Count < lines)
                             throw new SystemException("Not enough space in response array");
-                        if (response[response.Count-1].ToString().Trim().EndsWith("\n."))
+                        if (response[response.Count - 1].ToString().EndsWith("\r\n.\r\n"))
                             break;
                         else
+                        {
                             Console.WriteLine("Trying to retrieve again. len = " + len + "msgSize = " + msgSize + "\n\n" + response[response.Count - 1].ToString());
+                            response.Clear();
+                            len = 0;
+                            lines = 0;
+                            bytes = null;
+                            lastRead = null;
+                        }
                     }
                     catch (Exception ex)
                     {
