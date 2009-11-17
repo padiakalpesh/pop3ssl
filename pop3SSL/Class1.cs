@@ -914,14 +914,15 @@ namespace pop3SSL
                     try
                     {
                         instream.Write(Encoding.ASCII.GetBytes("RETR " + nn.ToString() + "\r\n"));
-                        bytes = new byte[1024];
-                        res = instream.Read(bytes, 0, bytes.Length);
-                        len += res;
-                        lines++;
                         String lastRead;
-                        lastRead = Encoding.ASCII.GetString(bytes, 0, res);
                         do
                         {
+                            bytes = new byte[1024];
+                            res = instream.Read(bytes, 0, bytes.Length);
+                            len += res;
+                            lines++;
+                            lastRead = Encoding.ASCII.GetString(bytes, 0, res);
+                        
                             try
                             {
                                 if (response.Count + 1 >= response.Capacity)
@@ -935,14 +936,14 @@ namespace pop3SSL
 
                             response.Add(lastRead);
                             bytes = null;
-                            bytes = new byte[1024];
-                            res = instream.Read(bytes, 0, bytes.Length);
-                            len += res;
-                            lines++;
-                            lastRead = Encoding.ASCII.GetString(bytes, 0, res);
+                            //bytes = new byte[1024];
+                            //res = instream.Read(bytes, 0, bytes.Length);
+                            //len += res;
+                            //lines++;
+                            //lastRead = Encoding.ASCII.GetString(bytes, 0, res);
 
                         } while (lastRead.EndsWith("\r\n.\r\n") == false);
-                        response.Add(lastRead);
+                        //response.Add(lastRead);
                         if (response.Count < lines)
                             throw new SystemException("Not enough space in response array");
                         if (response[response.Count - 1].ToString().EndsWith("\r\n.\r\n"))
